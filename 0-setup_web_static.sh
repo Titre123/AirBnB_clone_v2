@@ -2,8 +2,9 @@
 # bash script that sets up your web servers for the deployment of web_static
 
 if [[ ! `dpkg --get-selections | grep nginx` ]]; then
-        sudo apt -y update
-        sudo apt -y install nginx
+        apt -y update
+        apt -y install nginx
+        ufw allow 'Nginx HTTP'
 fi
 mkdir -p /data/web_static/
 mkdir -p /data/web_static/releases/
@@ -19,7 +20,7 @@ echo "<html>
   </body>
   </html>" > $dir
 ln -sf /data/web_static/releases/test /data/web_static/current
-chown ubuntu:ubuntu /data/
+chown -R ubuntu:ubuntu /data/
 sed -i '/listen 80 default_server;/a location /hbnb_static/ { alias /data/web_static/current/; }' /etc/nginx/sites-available/default
 service nginx  restart
 exit 0
