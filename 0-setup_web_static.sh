@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # bash script that sets up your web servers for the deployment of web_static
 
-if [[ ! `dpkg --get-selections | grep nginx` ]]; then
+x=$(dpkg --get-selections | grep nginx)
+if [[ ! "$x" ]]; then
         apt -y update
         apt -y install nginx
         ufw allow 'Nginx HTTP'
