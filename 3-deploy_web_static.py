@@ -58,6 +58,7 @@ def do_deploy(archive_path):
         return False
 
 def deploy():
+    ''' deploy web_static '''
     filename = do_pack()
     if filename:
 	boolean = do_deploy(filename)
