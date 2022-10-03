@@ -1,7 +1,10 @@
 #!/usr/bin/python3
-# compress web_static files
+""" compress web_static files """
+
 from fabric.operations import *
 from datetime import datetime
+
+
 date = datetime.now().strftime("%Y%m%d%H%M%S")
 def do_pack():
     '''fab fucntion to compress web_static files'''
