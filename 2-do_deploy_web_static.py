@@ -5,6 +5,8 @@ from fabric.operations import *
 from datetime import datetime
 import re
 import os
+from fabric.api import env
+env.hosts = ['3.238.125.126', '34.204.195.185']
 date = datetime.now().strftime("%Y%m%d%H%M%S")
 
 
@@ -20,11 +22,10 @@ def do_pack():
 
 def do_deploy(archive_path):
     ''' upload the web_static to web server '''
-    env.hosts = ['3.238.125.126', '34.204.195.185']
     if os.path.exists(archive_path):
         rex = r'^versions/(\S+).tgz'
         match = re.search(rex, archive_path)
-        archive = re.split(r'[/.]', str(archive_path))
+        archive = re.split(r'[/.]', str(archive_path))[1]
         res = put("{}".format(archive_path), "/tmp/{}.tgz".format(archive))
         if res.failed:
             return False
