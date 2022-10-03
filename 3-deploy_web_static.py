@@ -57,11 +57,12 @@ def do_deploy(archive_path):
     else:
         return False
 
+
 def deploy():
     """Creates and distributes an archive to a web server"""
     filename = do_pack()
     if filename:
-	boolean = do_deploy(filename)
-	return boolean
+        boolean = do_deploy(filename)
+        return boolean
     else:
-	return False
+        return False
