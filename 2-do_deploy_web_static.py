@@ -1,4 +1,4 @@
-!/usr/bin/python3
+#!/usr/bin/python3
 """ compress web_static files """
 
 from fabric.operations import *
@@ -17,37 +17,41 @@ def do_pack():
         return None
     return re
 
+
 def do_deploy(archive_path):
     ''' upload the web_static to web server '''
     env.hosts = ['3.238.125.126', '34.204.195.185']
     if os.path.exists(archive_path):
-        res = put("{}".format(archive_path), "/tmp")
-	    if res.failed:
-		return False
-	archive= "{}".format(archive_path)
-        path= "/data/web_static/releases/{}/".format(re.split(r'[/.]',archive)[1])
-	res = run("mkdir -p {}".format(path))
-	    if res.failed:
-		return False
-	tmp_arch = "/tmp/{}".format(archive.split('/')[1])
-	res = run("tar -xzf {} -C {}".format(tmp_arch, path)
-	    if res.failed:
-		return False
-	res = run("rm {}".format(tmp_arch))
-	    if res.failed:
-		return False
-	res = run("mv {}web_static/* {}".format(path,path))
-	    if res.failed:
-		return False
-	res = run("rm -rf {}web_static".format(path))
-	    if res.failed:
-		return False
-	res = run("rn -rf /data/web_static/current")
-	    if res.failed:
-		return False
-	res = run("ln -s {} /data/web_static/current".format(path))
-	    if res.failed:
-		return False
-	return True
+        rex = r'^versions/(\S+).tgz'
+        match = re.search(rex, archive_path)
+        archive = re.split(r'[/.]', str(archive_path))
+        res = put("{}".format(archive_path), "/tmp/{}.tgz".format(archive))
+        if res.failed:
+            return False
+        path = "/data/web_static/releases/{}/".format(archive)
+        res = run("mkdir -p {}".format(path))
+        if res.failed:
+            return False
+        tmp_arch = "/tmp/{}.tgz".format(archive)
+        res = run("tar -xzf {} -C {}".format(tmp_arch, path))
+        if res.failed:
+            return False
+        res = run("rm {}".format(tmp_arch))
+        if res.failed:
+            return False
+        res = run("mv {}web_static/* {}".format(path, path))
+        if res.failed:
+            return False
+        res = run("rm -rf {}web_static".format(path))
+        if res.failed:
+            return False
+        res = run("rm -rf /data/web_static/current")
+        if res.failed:
+            return False
+        res = run("ln -s {} /data/web_static/current".format(path))
+        if res.failed:
+            return False
+        print("New version deployed!")
+        return True
     else:
         return False
