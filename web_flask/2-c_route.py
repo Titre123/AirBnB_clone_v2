@@ -16,7 +16,7 @@ def hello_holberton():
     return 'HBNB'
 
 
-@app.route('/c//<text>', strict_slashes=False)
+@app.route('/c/<text>', strict_slashes=False)
 def C_Program(text):
     text_arr = text.split('_')
     new_string = ' '.join(text_arr)
