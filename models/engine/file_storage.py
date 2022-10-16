@@ -8,7 +8,7 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self, cls="None"):
+    def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         return FileStorage.__objects
 
@@ -56,3 +56,7 @@ class FileStorage:
         else:
             key = "{}.{}".format(type(obj).__name__, obj.id)
             del FileStorage.__objects[key]
+
+    def close(self):
+        ''' call reload method '''
+        self.reload()
