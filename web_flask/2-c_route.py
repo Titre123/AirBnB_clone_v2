@@ -9,10 +9,12 @@ def hello_world():
     ''' Function to display message '''
     return 'Hello HBNB!'
 
+
 @app.route('/hbnb', strict_slashes=False)
 def hello_holberton():
     ''' display HBNB '''
     return 'HBNB'
+
 
 @app.route('/c//<text>', strict_slashes=False)
 def C_Program(text):
@@ -20,5 +22,6 @@ def C_Program(text):
     new_string = ' '.join(text_arr)
     return 'C {}'.format(new_string)
 
+
 if __name__ == '__main__':
-	app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0")
