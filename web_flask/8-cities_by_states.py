@@ -7,10 +7,10 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-@app.route('/states_list', strict_slashes=False)
-def state():
+@app.route('/cities_by_states', strict_slashes=False)
+def cities():
     '''render states '''
-    return render_template('7-states_list.html',
+    return render_template('8-cities_by_states.html',
                            store=storage.all(State).values())
 
 
